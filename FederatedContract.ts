@@ -1,3 +1,14 @@
+export interface AuthUser {
+  id: string;
+  name: string;
+  token: string;
+}
+
+export interface AuthModule {
+  getUser: () => AuthUser | null;
+  isAuthenticated: () => boolean;
+  login: (provider: string) => Promise<void>;
+}
 
 export interface BaseModuleProps {
   theme: 'light' | 'dark' | 'system';
