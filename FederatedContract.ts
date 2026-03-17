@@ -12,7 +12,6 @@ export interface AuthModule {
 
 export interface BaseModuleProps {
   theme: 'light' | 'dark' | 'system';
-  locale: 'es' | 'en';
   // Callback para que el módulo notifique errores al sistema de logs del Shell
   onError: (error: Error, info?: string) => void;
 }
@@ -25,7 +24,6 @@ export interface CalculatorContract extends BaseModuleProps {
 
 export interface PizarraContract extends BaseModuleProps {
   canvasId: string;
-  allowExport: boolean;
 
   onSave: (dataUrl: string) => Promise<{ success: boolean; url?: string }>;
 
@@ -33,8 +31,7 @@ export interface PizarraContract extends BaseModuleProps {
 }
 
 export interface CurrencyConverterContract extends BaseModuleProps {
-  availableCurrencies: string[]; // ['USD', 'EUR', 'MXN']
+  availableCurrencies: string[]; // ['USD', 'EUR']
   // El Shell actúa como Proxy de la API de finanzas
   getExchangeRate: (from: string, to: string) => Promise<number>;
-  onTransaction?: (details: { amount: number; from: string; to: string }) => void;
 }
