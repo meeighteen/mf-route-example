@@ -12,7 +12,7 @@ export interface AuthModule {
 
 export interface BaseModuleProps {
   theme: 'light' | 'dark' | 'system';
-  // Callback para que el módulo notifique errores al sistema de logs del Shell
+  auth?: AuthModule;
   onError: (error: Error, info?: string) => void;
 }
 
@@ -31,7 +31,6 @@ export interface PizarraContract extends BaseModuleProps {
 }
 
 export interface CurrencyConverterContract extends BaseModuleProps {
-  availableCurrencies: string[]; // ['USD', 'EUR']
-  // El Shell actúa como Proxy de la API de finanzas
+  availableCurrencies: string[];
   getExchangeRate: (from: string, to: string) => Promise<number>;
 }
