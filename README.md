@@ -1,3 +1,4 @@
+### Mapa de Dependencias y Responsabilidades
 ```mermaid
 classDiagram
     direction UR
@@ -45,5 +46,5 @@ classDiagram
     MFE_Convertidores --|> IMathCore : Consume (Federado)
     MFE_Pizarrita --|> IAuthService : Consume (Inyectado)
 
-    note for MFE_Calculadoras "Lead de Dominio: \nDueño de la lógica matemática"
-    note for ShellHost "Orquestador: \nDueño de la sesión"
+    note for MFE_Calculadoras "Lead de Dominio: <br/>Dueño de la lógica matemática"
+    note for ShellHost "Orquestador: <br/>Dueño de la sesión"
