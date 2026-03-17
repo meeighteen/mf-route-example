@@ -1,27 +1,24 @@
 ### Mapa de Dependencias y Responsabilidades
 ```mermaid
 classDiagram
-    direction UR
-    
-    %% Definición de Interfaces (Shared Kernel / Contratos)
+    direction TB
+
+    %% Interfaces (Contratos)
     class IAuthService {
         <<interface>>
         +getToken() String
         +getUser() User
-        +isLoggedIn() Boolean
     }
 
     class IMathCore {
         <<interface>>
         +calculate(formula: String) Number
-        +formatCurrency(val: Number) String
         +validateNumeric(val: any) Boolean
     }
 
-    %% Definición de Módulos (Remotes)
+    %% Remotos y Squads
     class ShellHost {
         +AuthServiceImplementation
-        +renderRemote(name: String)
     }
 
     class MFE_Calculadoras {
@@ -30,21 +27,29 @@ classDiagram
     }
 
     class MFE_Convertidores {
+        +ConversionLogic
         +mount(el, deps)
     }
 
-    class MFE_Pizarrita {
+    class MFE_Pizarra {
+        +DrawingEngine
         +mount(el, deps)
     }
 
-    %% Relaciones de Inyección y Dependencia
-    ShellHost ..> IAuthService : Provee/Inyecta
-    MFE_Calculadoras ..|> IMathCore : Implementa y Expone
+    %% Relaciones de Dependencia
+    ShellHost ..> IAuthService : Inyecta
+    MFE_Calculadoras ..|> IMathCore : Implementa (Lead)
     
-    MFE_Calculadoras --|> IAuthService : Consume (Inyectado)
-    MFE_Convertidores --|> IAuthService : Consume (Inyectado)
-    MFE_Convertidores --|> IMathCore : Consume (Federado)
-    MFE_Pizarrita --|> IAuthService : Consume (Inyectado)
+    MFE_Calculadoras --|> IAuthService : Consume
+    
+    MFE_Convertidores --|> IAuthService : Consume
+    MFE_Convertidores --|> IMathCore : Consume (De Squad Mat 1)
+    
+    MFE_Pizarra --|> IAuthService : Consume
 
-    note for MFE_Calculadoras "Lead de Dominio: <br/>Dueño de la lógica matemática"
-    note for ShellHost "Orquestador: <br/>Dueño de la sesión"
+    %% Notas con saltos de línea
+    note for MFE_Calculadoras "SQUAD MATEMÁTICAS 1:<br/>Dueños de Calculadoras.<br/>Proveen el Core Matemático."
+    
+    note for MFE_Convertidores "SQUAD MATEMÁTICAS 2:<br/>Dueños de Convertidores.<br/>Consumen el Core de Mat 1."
+
+    note for ShellHost "SQUAD SHELL:<br/>Orquestador global y<br/>proveedor de Auth."
